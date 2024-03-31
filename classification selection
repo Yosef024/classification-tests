@@ -1,0 +1,50 @@
+import numpy as np
+import pandas as pd
+from sklearn.metrics import accuracy_score
+#importing the dataset
+dataset=pd.read_csv('Data.csv')
+x=dataset.iloc[:,1:-1].values
+y=dataset.iloc[:,-1].values
+#splitting
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest=train_test_split(x,y,train_size=0.8,random_state=0)
+#feature scaling
+from sklearn.preprocessing import StandardScaler
+sc=StandardScaler()
+xtrain=sc.fit_transform(xtrain)
+xtest=sc.transform(xtest)
+#decision tree
+from sklearn.tree import DecisionTreeClassifier
+dts=DecisionTreeClassifier()
+dts.fit(xtrain,ytrain)
+#knearest
+from sklearn.neighbors import KNeighborsClassifier
+kng=KNeighborsClassifier()
+kng.fit(xtrain,ytrain)
+#svc
+from sklearn.svm import SVC
+svc=SVC(kernel='linear')
+svc.fit(xtrain,ytrain)
+#kernal svm
+ksvm=SVC(kernel='rbf')
+ksvm.fit(xtrain,ytrain)
+#logistic reg
+from sklearn.linear_model import LogisticRegression
+lg=LogisticRegression()
+lg.fit(xtrain,ytrain)
+#random forest
+from sklearn.ensemble import RandomForestClassifier
+rfc=RandomForestClassifier()
+rfc.fit(xtrain,ytrain)
+#naive bayes
+from sklearn.naive_bayes import GaussianNB
+nb=GaussianNB()
+nb.fit(xtrain,ytrain)
+#score testing
+print(accuracy_score(y_pred=dts.predict(xtest),y_true=ytest),'tree')
+print(accuracy_score(y_pred=kng.predict(xtest),y_true=ytest),'k neighb')
+print(accuracy_score(y_pred=svc.predict(xtest),y_true=ytest),'svc')
+print(accuracy_score(y_pred=ksvm.predict(xtest),y_true=ytest),'kernal')
+print(accuracy_score(y_pred=lg.predict(xtest),y_true=ytest),'logistic')
+print(accuracy_score(y_pred=rfc.predict(xtest),y_true=ytest),'random forest')
+print(accuracy_score(y_pred=nb.predict(xtest),y_true=ytest),'naive bayes')
